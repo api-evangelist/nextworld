@@ -1,0 +1,40 @@
+generated: '2026-08-26'
+method: searched
+source: https://www.nextw.com/docs/developerstudiointeroperability
+name: Nextworld rate limits
+limit_count: 0
+note: >-
+  Nextworld publishes NO rate limits. The interoperability documentation — the deepest public API
+  document the company serves — contains no occurrence of "rate limit", "throttle", "quota per
+  second", pagination limits, or any X-RateLimit / RateLimit / Retry-After header. Neither the
+  pricing page nor the MCP documentation states a call ceiling. The endpoint reference that could
+  carry them sits behind the tenant login. This is a recorded absence, not an unchecked field.
+headers: []
+status_on_exhaustion: not-documented
+adjacent_quotas:
+  note: >-
+    What Nextworld DOES meter is AI credits, which is a consumption quota rather than a request rate.
+    Recorded in plans/nextworld-plans-pricing.yml, not here.
+  free_tier_ai_credits_per_month: 150
+  free_tier_storage_gb: 2
+adjacent_limits_documented:
+- subject: Access token lifetime
+  value: 8 minutes
+  source: https://www.nextw.com/docs/developerstudiointeroperability
+- subject: Endpoint log request body captured
+  value: up to 100Kb
+  source: https://www.nextw.com/docs/developerstudiointeroperability
+- subject: Endpoint log retention
+  value: 5 days
+  source: https://www.nextw.com/docs/developerstudiointeroperability
+- subject: User-defined event payloads per event definition
+  value: up to 5
+  source: https://www.nextw.com/docs/developerstudiointeroperability
+- subject: Outbound endpoint retries
+  value: configurable per endpoint definition (attempts + wait between attempts)
+  source: https://www.nextw.com/docs/developerstudiointeroperability
+evidence:
+- url: https://www.nextw.com/docs/developerstudiointeroperability
+  status: 200
+- url: https://www.nextw.com/pricing
+  status: 200

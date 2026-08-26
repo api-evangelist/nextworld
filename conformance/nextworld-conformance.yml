@@ -1,0 +1,178 @@
+generated: '2026-08-26'
+method: probed
+source: >-
+  Live probes of https://apps.nextworld.net/ai/mcp and its RFC 9728 metadata, plus the published
+  documentation at https://www.nextw.com/docs/developerstudiointeroperability and the compliance and
+  trust-center pages.
+name: Nextworld standards conformance
+standards:
+- id: mcp
+  label: Model Context Protocol
+  conforms: true
+  evidence: >-
+    Live JSON-RPC 2.0 server at https://apps.nextworld.net/ai/mcp. GET returns
+    {"jsonrpc":"2.0","error":{"code":-32000,"message":"Method not allowed."}}; a POST tools/list
+    returns a JSON-RPC error object and, once scoped with ?app=, a 401 with an RFC 9728 challenge.
+    Documented at https://www.nextw.com/docs/mcpserver.
+- id: rfc9728
+  label: OAuth 2.0 Protected Resource Metadata
+  conforms: true
+  evidence: >-
+    The MCP endpoint returns WWW-Authenticate: Bearer
+    resource_metadata="https://apps.nextworld.net/ai/mcp/.well-known/oauth-protected-resource", and
+    that document is served (HTTP 200, application/json) with resource, authorization_servers,
+    bearer_methods_supported and scopes_supported. Saved verbatim at
+    well-known/nextworld-oauth-protected-resource.json.
+- id: oauth2
+  label: OAuth 2.0
+  conforms: true
+  evidence: >-
+    Authorization server is an AWS Cognito user pool (us-east-1_EJas25nD4) exposing authorize, token,
+    revoke and userinfo endpoints. Nextworld also documents OAuth 2.0 Authorization Code, Refresh
+    Token and Client Credentials grants (Client Secret and JWT Assertion) for outbound endpoints.
+- id: oauth21
+  label: OAuth 2.1
+  conforms: true
+  evidence: >-
+    Documented for Ed's outbound MCP connections - "If the MCP server requires OAuth 2.1, OAuth
+    Provider records and Credential Management records are automatically created", with dynamic
+    client registration supported where the remote server offers it.
+    (https://www.nextw.com/docs/developerstudiointeroperability)
+- id: pkce
+  label: RFC 7636 Proof Key for Code Exchange
+  conforms: true
+  evidence: >-
+    "Proof Key for Code Exchange (PKCE) is automatically included within OAuth requests from the
+    Nextworld platform." Stated twice in the interoperability documentation.
+- id: oidc
+  label: OpenID Connect
+  conforms: true
+  evidence: >-
+    The MCP authorization server publishes an OIDC discovery document (HTTP 200) with issuer,
+    jwks_uri, id_token_signing_alg_values_supported RS256 and scopes openid/email/phone/profile.
+    Saved at well-known/nextworld-openid-configuration.json. Nextworld additionally offers SSO,
+    configured in Tenant Environment Setup.
+- id: jwt
+  label: RFC 7519 JSON Web Token
+  conforms: true
+  evidence: >-
+    JWT is a first-class endpoint authentication type, configured in the Endpoint JWT Setup
+    application, generated in-platform with a symmetric algorithm or retrieved externally by a logic
+    block. Cognito ID tokens are RS256-signed JWTs.
+- id: hmac
+  label: HMAC request authentication
+  conforms: true
+  evidence: >-
+    Inbound webhooks authenticate with HMAC, using a secret generated in the Credential Management
+    application.
+- id: rest
+  label: REST over HTTP
+  conforms: true
+  evidence: >-
+    "Nextworld uses a type of API called REST APIs, which designate an HTTP request method, such as
+    GET, PUT, or DELETE." Published endpoint paths follow /v3/data/{table} and
+    /v3/LogicBlocks/{logicBlock}:execute forms.
+- id: openapi
+  label: OpenAPI
+  conforms: false
+  evidence: >-
+    No OpenAPI or Swagger document was found. Probed /openapi.json, /openapi.yaml, /swagger.json,
+    /v1/openapi.json, /api-docs, /docs and /redoc on apps.nextworld.net (all 404 NoSuchKey from the
+    S3/CloudFront origin) and on www.nextw.com and community.nextw.com. The endpoint reference is
+    published only inside the platform, under Integrations > Endpoint Documentation, behind a tenant
+    login.
+- id: asyncapi
+  label: AsyncAPI
+  conforms: false
+  evidence: >-
+    A real event surface exists (event emissions to AWS EventBridge, inbound webhooks) but no
+    AsyncAPI document is published. Payload shapes are defined per customer tenant, so there is no
+    universal schema to describe.
+- id: graphql
+  label: GraphQL
+  conforms: false
+  evidence: No /graphql surface documented or found.
+- id: grpc
+  label: gRPC / Protobuf
+  conforms: false
+  evidence: No .proto published; no buf.build presence; no GitHub organization.
+- id: soap
+  label: SOAP / WSDL
+  conforms: false
+  evidence: >-
+    No WSDL. apps.nextworld.net/soap?wsdl returned HTTP 200 with a zero-byte body and no content
+    type - not a contract; /services?wsdl returned 404.
+- id: rfc9457
+  label: RFC 9457 Problem Details
+  conforms: false
+  evidence: >-
+    No application/problem+json usage documented. The MCP surface uses JSON-RPC 2.0 error objects
+    instead, which is correct for MCP but is not RFC 9457.
+- id: rfc8594
+  label: RFC 8594 Sunset header
+  conforms: false
+  evidence: >-
+    Nextworld runs a real, dated deprecation programme (V2 to V3 data-mutation endpoints, announced
+    March 2026, deadline December 2027) but announces it in documentation only. No Sunset or
+    Deprecation response header is documented.
+- id: idempotency
+  label: Idempotency keys
+  conforms: false
+  evidence: No idempotency key or header documented anywhere on the public surface.
+- id: pagination
+  label: Documented pagination
+  conforms: false
+  evidence: Not documented on any public page.
+- id: llmstxt
+  label: llms.txt
+  conforms: true
+  evidence: >-
+    https://www.nextw.com/llms.txt returns HTTP 200 text/plain, 6,590 bytes, correctly formed with an
+    H1, a blockquote summary, and linked sections. Saved verbatim at llms/nextworld-llms.txt.
+- id: a2a
+  label: A2A Agent Card
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json probed on www.nextw.com,
+    apps.nextworld.net, console.nextworld.net, support.nextworld.net and community.nextw.com - 404 on
+    every one. No card published, so none is authored.
+domain_standards:
+  note: >-
+    Nextworld's market is enterprise ERP extension for distribution, manufacturing, engineering and
+    construction, telecommunications, utilities, and food and beverage. Those sectors do carry
+    interchange standards (X12/EDIFACT for trading-partner documents, Sparkplug/OPC UA on the plant
+    floor). Nextworld's public contract declares NONE of them - its published integration model is
+    generic REST endpoints, connectors and a J.D. Edwards connector, with per-customer field
+    mappings. Recorded as a factual absence; the domain_standard check is reward-only and no
+    conformance is invented to fill it.
+  declared: []
+  looked_for:
+  - X12
+  - EDIFACT
+  - Sparkplug
+  - OPC UA
+  - OData
+  - SCIM
+compliance:
+  certifications:
+  - SOC 1 Type 2
+  - SOC 2 Type 2
+  - ISAE 3000
+  - ISAE 3402
+  - CSA STAR Level 1
+  frameworks:
+  - GDPR
+  - CCPA / CPRA
+  - Colorado Privacy Act
+  - PIPEDA
+  - Australia Privacy Act
+  - New Zealand Privacy Act
+  - HIPAA
+  - WCAG
+  - Sarbanes-Oxley Act
+  - Gramm-Leach-Bliley Act
+  - EU NIS Directive
+  - UK NIS Act
+  - OFAC
+  source: https://trust.nextw.com/
+  see: ../security/nextworld-trust-center.yml

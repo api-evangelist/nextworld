@@ -1,0 +1,27 @@
+generated: '2026-08-26'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.nextw.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 17 09:39:53 2026 GMT
+  hsts: false
+- host: apps.nextworld.net
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Jan 22 23:59:59 2027 GMT
+  hsts: false
+domains:
+- domain: nextw.com
+  dnssec: true
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+- domain: nextworld.net
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: none

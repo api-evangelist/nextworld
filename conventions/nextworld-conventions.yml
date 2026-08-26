@@ -1,0 +1,152 @@
+generated: '2026-08-26'
+method: searched
+source: https://www.nextw.com/docs/developerstudiointeroperability
+name: Nextworld API conventions
+note: >-
+  Assembled from Nextworld's public documentation. There is no OpenAPI to derive from, so every entry
+  is either quoted from the docs or explicitly recorded as not documented. Nothing here is inferred.
+auth_style:
+  inbound_rest: Basic Auth handshake returning a short-lived bearer access token (8 min) + refresh token
+  mcp: API key in the URL, or OAuth via AWS Cognito (RFC 9728 protected-resource metadata)
+  webhooks_in: HMAC or Basic Auth
+  see: ../authentication/nextworld-authentication.yml
+base_url:
+  documented: false
+  discovery: >-
+    The authentication response returns the protocol://host:port to use for all subsequent calls. The
+    production authentication URL itself is published only in the in-platform Endpoint Documentation
+    (Sidebar > Integrations), which requires a tenant login. apps.nextworld.net is the confirmed
+    public platform host and serves the MCP endpoint.
+versioning:
+  style: path prefix (/v2/, /v3/)
+  current: v3
+  see: ../lifecycle/nextworld-lifecycle.yml
+request_id_tracing:
+  supported: true
+  field: nwCorrelationId
+  description: >-
+    A correlation ID that ties together every process resulting from a single user action —
+    webhooks, workflow transitions, jobs, events, summary tables, and inbound and outbound endpoint
+    calls. If empty, the system generates one and logs it on all associated processes.
+  inbound: Available in the request header of inbound endpoint calls.
+  outbound: >-
+    Mappable in the Endpoint Definitions application as a Request Header, Request Body or Query
+    Parameter entry of type Correlation ID.
+  observable_in:
+  - Endpoint Log Inquiry
+  - Workflow Queued Transition Inquiry
+  - Jobs
+  source: https://www.nextw.com/docs/developerstudiointeroperability
+mutation_model:
+  name: NATE disposition
+  description: >-
+    From v3, subtable records carry an explicit disposition telling the platform what to do with each
+    row in a write, rather than the server inferring intent. Main records fetched come back as
+    PRISTINE; the caller changes the disposition per record.
+  field: nwNateDisposition (response) / nateDisposition (request)
+  values:
+  - PRISTINE
+  - INSERTED
+  - UPDATED
+  - DELETED
+  identity_field: nwId
+  note: >-
+    This is a write-intent model, not an idempotency model — resending a request is not made safe by
+    it, and Nextworld documents no idempotency key.
+idempotency:
+  supported: not-documented
+  key_header: null
+  note: >-
+    No idempotency key, no Idempotency-Key header, no replay-window documentation anywhere in the
+    public docs. NO Idempotency pointer is emitted. The nearest published behaviours are transaction
+    scoping (a logic block that errors rolls back the whole transaction including any queued event,
+    so record updates are not committed) and automatic retry of failed event targets, neither of
+    which is caller-controlled idempotency.
+pagination:
+  style: not-documented
+  note: >-
+    Not documented on any public page. The endpoint reference that would carry it is inside the
+    tenant login.
+field_expansion:
+  supported: not-documented
+error_envelope:
+  format: not-documented
+  note: >-
+    Nextworld documents that a response carries a response code and a response body, and that
+    endpoint definitions map a "response set" of expected response codes, but publishes no error code
+    registry, no problem+json usage, and no error envelope schema. No ErrorCatalog artifact is
+    emitted, because there is nothing published to catalog.
+  observed:
+  - surface: MCP endpoint (apps.nextworld.net/ai/mcp)
+    format: JSON-RPC 2.0 error object
+    example_codes:
+    - code: -32000
+      message: Method not allowed.
+      http_status: 405
+    - code: -32000
+      message: 'Missing required query parameters: Either app, mcpBundle, or agenticProject'
+      http_status: 400
+    - code: -32000
+      message: Initiating authorization server discovery process
+      http_status: 401
+    method: probed
+rate_limit_signaling:
+  documented: false
+  see: ../rate-limits/nextworld-rate-limits.yml
+retry_policy:
+  outbound: >-
+    Per endpoint definition, the caller configures request timeout, number of attempts, and wait
+    between attempts. This is Nextworld retrying an EXTERNAL API, not a policy for callers of
+    Nextworld.
+  events: Failed event targets are automatically retried several times before the Event Target record is left errored.
+logging:
+  endpoint_logs: >-
+    Enable Logging on an endpoint definition logs every interaction; cleared, only failures are
+    logged. Records capture the fully resolved URL after dynamic substitution, HTTP headers with
+    substituted content, request body up to 100Kb, response code and response body. Purged after 5 days.
+  webhook_logs: >-
+    Webhook Log Inquiry shows inbound webhook requests, the setup and definition record names,
+    timestamp, host, source IP address and request body. A Replay Request row action re-initiates a
+    failed webhook's event after the underlying problem is fixed.
+reversibility:
+  state: documented
+  grade_basis: >-
+    A reversal/replay path exists and is documented by name, but no time window is stated anywhere in
+    the public documentation, so this cannot be graded verified.
+  write_surface: true
+  operations:
+  - action: Inbound webhook that failed to process
+    reversal: Replay Request (row action on the Webhook Log Inquiry record)
+    operation_id: null
+    window: not-stated
+    docs: https://www.nextw.com/docs/developerstudiointeroperability
+    note: Re-initiates the event after the cause of the failure is fixed. A replay, not an undo.
+  - action: Emitted event that errored on delivery
+    reversal: Resubmit from the Event Status Inquiry application
+    operation_id: null
+    window: not-stated
+    docs: https://www.nextw.com/docs/developerstudiointeroperability
+  - action: Record mutation inside a logic block that then errors
+    reversal: automatic transaction rollback
+    operation_id: null
+    window: n/a — same transaction
+    docs: https://www.nextw.com/docs/developerstudiointeroperability
+    note: >-
+      "If a logic block queues a user-defined event then later throws an error, the whole logic
+      block, including the event, is rolled back. Any record updates aren't committed." This is
+      server-side atomicity, not a caller-invocable undo.
+  - action: Record deleted or updated through the REST API or the MCP server
+    reversal: none documented
+    window: null
+    note: >-
+      NOTHING in the public documentation describes undoing a committed DELETE or UPDATE made through
+      /v3/data/{table} or through the MCP server, and no restore window is stated. An agent granted
+      delete permission on a Nextworld application has no documented way back. This is the single
+      most consequential gap in Nextworld's agent-facing surface, because the MCP server explicitly
+      grants delete and workflow-transition rights.
+  workflow_note: >-
+    Records move through workflow states and a state can be transitioned again, including backwards
+    where the workflow definition allows it — but that is application-defined by each customer, not a
+    platform-guaranteed reversal, so it is not counted here.
+dry_run_mode:
+  supported: not-documented

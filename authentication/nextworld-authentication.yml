@@ -1,0 +1,112 @@
+generated: '2026-08-26'
+method: searched
+source: https://www.nextw.com/docs/developerstudiointeroperability
+docs:
+- https://www.nextw.com/docs/developerstudiointeroperability
+- https://www.nextw.com/docs/mcpserver
+- https://www.nextw.com/docs/developerstudiosecurity
+name: Nextworld authentication profile
+note: >-
+  Not derived from an OpenAPI — Nextworld publishes none. Every scheme below is stated in the
+  company's public documentation, or was observed directly on a live probe (marked probed).
+surfaces:
+- surface: Inbound REST API (external system calling into Nextworld)
+  schemes:
+  - type: http
+    scheme: basic
+    description: >-
+      The first call an external system makes is an authentication call using Basic Authentication.
+      Nextworld states "Nextworld supports Basic Authentication protocols" for inbound requests.
+    method: searched
+  - type: http
+    scheme: bearer
+    bearerFormat: opaque access token
+    description: >-
+      The authentication response is JSON and carries the tenant-specific protocol://host:port that
+      MUST be used for all subsequent calls, plus an access token and a refresh token. The access
+      token expires every 8 minutes. The refresh token lasts several hours and can be used both to
+      refresh the access token and to switch to a different environment/lifecycle.
+    method: searched
+  environment_selection: >-
+    If no environment or lifecycle is supplied in the authentication request body, the credentials
+    used derive the default environment and lifecycle, and every subsequent call stays inside it. A
+    different environment (dev/test vs production) can be named in the request body.
+  base_url_discovery: >-
+    Nextworld does not publish a fixed production base URL. The production authentication URL is
+    documented only in the in-platform Endpoint Documentation (Sidebar > Integrations), which
+    requires a tenant login. The host for data calls is returned by the authentication response.
+- surface: Remote MCP server (agent client calling into Nextworld)
+  endpoint: https://apps.nextworld.net/ai/mcp
+  schemes:
+  - type: apiKey
+    in: query
+    name: apikey
+    description: >-
+      Per-user Personal Access Key embedded in the MCP URL that the platform generates via the
+      "Get MCP URL" button. Revoked in bulk from User Menu > Settings > Revoke Service Personal
+      Access Keys, which invalidates every key across the user's lifecycles, tenants and environments.
+    method: searched
+  - type: oauth2
+    description: >-
+      OAuth is documented for Claude Enterprise: the tenant ID is entered as the OAuth Client ID and
+      each user supplies their own Personal Access Key at sign-in, so actions are attributed to the
+      acting user rather than to whoever configured the connector.
+    authorization_server: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_EJas25nD4
+    scopes: ../scopes/nextworld-scopes.yml
+    method: probed
+    evidence: >-
+      An anonymous tools/list POST to https://apps.nextworld.net/ai/mcp?app=JournalEntry returned
+      HTTP 401 with WWW-Authenticate: Bearer
+      resource_metadata="https://apps.nextworld.net/ai/mcp/.well-known/oauth-protected-resource"
+      on 2026-08-26 — a conformant RFC 9728 challenge.
+- surface: Inbound webhooks (external system notifying Nextworld)
+  schemes:
+  - type: hmac
+    description: >-
+      HMAC authentication. A secret is generated in the Credential Management application and used
+      both in Webhook Setup and in the calling external system; each inbound request is authenticated
+      with the specified HMAC algorithm.
+    method: searched
+  - type: http
+    scheme: basic
+    description: Each inbound webhook request carries a username and password.
+    method: searched
+- surface: Outbound endpoints (Nextworld calling an external API)
+  note: >-
+    Configured per-endpoint in the Endpoint Definitions application. Listed for completeness — this
+    is Nextworld acting as a CLIENT, not an authentication surface Nextworld exposes.
+  schemes:
+  - type: none
+    description: No Auth.
+  - type: http
+    scheme: basic
+    description: Basic Auth against a Key/Secret pair stored in the Endpoint Secret Setup application.
+  - type: token
+    description: A referenced Token Creation endpoint mints the token; a Token Release endpoint can end the session.
+  - type: oauth2
+    description: >-
+      OAuth 2.0 with Authorization Code, Refresh Token, and Client Credentials grants. Client
+      Credentials supports both Client Secret and JWT Assertion client authentication. PKCE is
+      automatically included in OAuth requests from the Nextworld platform.
+  - type: jwt
+    description: >-
+      JSON Web Token, configured in the Endpoint JWT Setup application. Tokens are either generated
+      in-platform with a symmetric algorithm or retrieved externally by a logic block.
+  - type: sso
+    description: Token retrieved from the URL defined for the chosen third party; configured in Tenant Environment Setup.
+  - type: oauth2.1
+    description: >-
+      OAuth 2.1 with PKCE and, where supported, dynamic client registration — used specifically when
+      the Nextworld assistant "Ed" connects out to an external MCP server.
+authorization_model:
+  description: >-
+    Beyond authentication, access is governed by the platform's own model: security groups collect
+    metadata objects, permission definitions grant RUID (read/update/insert/delete) at row, field,
+    action, application, workflow-data/transition and org-unit level, roles combine permissions, and
+    role hierarchies let roles inherit. Once a role grants access, the only way to remove it is to
+    revoke or remove the role. Security is enabled for all product families except Playpen.
+  source: https://www.nextw.com/docs/developerstudiosecurity
+gaps:
+- No published OpenAPI securitySchemes block.
+- No public production authentication URL; it is behind the tenant login.
+- No API-key rotation policy or token-lifetime table published beyond the 8-minute access token.

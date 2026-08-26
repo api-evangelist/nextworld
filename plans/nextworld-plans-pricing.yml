@@ -1,0 +1,63 @@
+generated: '2026-08-26'
+method: searched
+source: https://www.nextw.com/pricing
+name: Nextworld plans and pricing
+currency: USD
+plan_count: 2
+plans:
+- name: Free
+  price: 0
+  currency: USD
+  period: month
+  self_serve: true
+  signup: https://console.nextworld.net/auth/signup
+  included:
+    users: 1
+    dev_environments: 1
+    ai_credits_per_month: 150
+    storage_gb: 2
+    training_materials: true
+    support: Community
+  note: Positioned by Nextworld as a way to test use cases on the platform.
+- name: Enterprise
+  price: null
+  price_model: custom
+  currency: USD
+  period: null
+  self_serve: false
+  included:
+    users: custom
+    environments: custom
+    ai_credits_per_month: custom
+    storage_gb: unlimited
+    sso: true
+    rbac: true
+    audit_logs: true
+    onboarding: Dedicated onboarding support
+    support: Dedicated customer support
+    compliance: SOC 1 and SOC 2
+usage_pricing:
+- unit: AI credit
+  model: pay-as-you-go
+  rollover: false
+  overage_behavior: >-
+    Service continues past the monthly credit allotment at overage rates; Nextworld states there is
+    no interruption. The overage rate itself is not published.
+  published_rate: null
+  typical_consumption:
+  - activity: Build session
+    credits: 50-150
+  - activity: Agent run
+    credits: 10-50
+  - activity: Chat conversation
+    credits: 10
+  - activity: Prompt function
+    credits: 2
+api_access_by_tier:
+  note: >-
+    Nextworld does not tier API or MCP access on the pricing page. REST endpoints are generated
+    automatically for every table and logic block, and the MCP URL is generated per application for
+    any user with the connection option enabled. No API-specific line item is priced.
+evidence:
+- url: https://www.nextw.com/pricing
+  status: 200

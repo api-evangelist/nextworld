@@ -1,0 +1,116 @@
+generated: '2026-08-26'
+method: probed
+source: >-
+  https://www.nextw.com/docs/mcpserver and https://www.nextw.com/docs/developerstudiointeroperability
+  (published, no login required), confirmed by direct JSON-RPC probes of
+  https://apps.nextworld.net/ai/mcp on 2026-08-26.
+name: Nextworld MCP Server
+provider: Nextworld
+status: published
+deployment:
+  mode: remote
+  endpoint: https://apps.nextworld.net/ai/mcp
+  auth: oauth
+  verified: probed
+  note: >-
+    The endpoint requires a query parameter selecting the scope of the connection — one of app,
+    mcpBundle or agenticProject — so the callable URL is per-application, e.g.
+    https://apps.nextworld.net/ai/mcp?app=JournalEntry. Nextworld generates the URL for a user
+    inside the platform via the "Get MCP URL" button. Two auth modes are documented: a per-user
+    Personal Access Key carried as an apikey query parameter, and OAuth (documented for Claude
+    Enterprise, where the tenant ID is entered as the OAuth Client ID and the user supplies their own
+    Personal Access Key). There is no stdio package and no npx install — this is a hosted server only.
+x-evidence:
+  fetched: '2026-08-26'
+  probes:
+  - request: GET https://apps.nextworld.net/ai/mcp
+    http_status: 405
+    body: '{"jsonrpc":"2.0","error":{"code":-32000,"message":"Method not allowed."},"id":null}'
+  - request: 'POST https://apps.nextworld.net/ai/mcp  {"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    http_status: 400
+    body: >-
+      {"jsonrpc":"2.0","error":{"code":-32000,"message":"Missing required query parameters: Either
+      app, mcpBundle, or agenticProject"},"id":null}
+  - request: 'POST https://apps.nextworld.net/ai/mcp?app=JournalEntry  {"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    http_status: 401
+    www_authenticate: >-
+      Bearer resource_metadata="https://apps.nextworld.net/ai/mcp/.well-known/oauth-protected-resource"
+    body: >-
+      {"jsonrpc":"2.0","error":{"code":-32000,"message":"Initiating authorization server discovery
+      process"},"id":null}
+  conclusion: >-
+    The server is live and speaks JSON-RPC over HTTP. It is a real remote MCP surface, not a docs
+    claim. The tool list is auth-gated behind a correct RFC 9728 challenge, so the tool inputSchemas
+    could not be captured anonymously and are NOT reproduced here.
+tools:
+  discovery: gated
+  note: >-
+    Nextworld does not publish a static tool list. The tool set is generated per connection from the
+    application, project or bundle the URL is scoped to, and is further filtered by the calling
+    user's platform permissions. tools/list therefore cannot be enumerated without an authenticated
+    session, and nothing below is a tool name — these are the capability CLASSES the documentation
+    states the server exposes.
+  documented_capabilities:
+  - capability: read records
+    source: https://www.nextw.com/docs/mcpserver
+  - capability: insert records
+    source: https://www.nextw.com/docs/mcpserver
+  - capability: update records
+    source: https://www.nextw.com/docs/mcpserver
+  - capability: delete records
+    source: https://www.nextw.com/docs/mcpserver
+  - capability: create records
+    source: https://www.nextw.com/docs/mcpserver
+  - capability: transition a record's workflow
+    source: https://www.nextw.com/docs/mcpserver
+connection_scopes:
+- scope: application
+  parameter: app
+  note: >-
+    A single application. Documented limitation — MCP clients can only connect to Standard and
+    Header Detail application types.
+- scope: project
+  parameter: agenticProject
+  note: A project, including all of its public artifacts.
+- scope: bundle
+  parameter: mcpBundle
+  note: A named group of tables and logic blocks defined in the MCP Bundle application.
+authorization:
+  challenge: RFC 9728 (OAuth 2.0 Protected Resource Metadata)
+  resource: https://apps.nextworld.net/ai/mcp
+  authorization_servers:
+  - https://cognito-idp.us-east-1.amazonaws.com/us-east-1_EJas25nD4
+  bearer_methods_supported:
+  - header
+  - body
+  scopes_supported:
+  - https://apps.nextworld.net/ai/mcp/access
+  - openid
+  - email
+  - phone
+  - profile
+  see: ../scopes/nextworld-scopes.yml
+  revocation: >-
+    A user revokes every MCP connection at once with the "Revoke Service Personal Access Keys"
+    button on the Settings page of their User Menu; this revokes all user-specific access keys
+    across their lifecycles, tenants and environments.
+permissions_model: >-
+  The MCP server enforces the platform's own RUID (read/update/insert/delete) security groups,
+  permission definitions, roles and role hierarchies. An agent can only do what the connecting user
+  can do. Without OAuth configured, every action the client performs is attributed to the user who
+  configured the connection.
+features:
+- name: Code Mode
+  description: >-
+    Nextworld's MCP implementation lets the server write and execute its own code server-side at
+    runtime rather than relying on pre-built tools or LLM reasoning over fetched data. Nextworld
+    states this reduces miscounts and hallucinated results and removes context-window limits on
+    large record sets.
+  source: https://www.nextw.com/docs/developerstudiointeroperability
+nextworld_as_mcp_client:
+  note: >-
+    Nextworld is also an MCP CLIENT. Its in-platform assistant "Ed" connects outbound to external
+    MCP servers configured in the External MCP Definitions application, using OAuth 2.1 with PKCE
+    and, where the remote server supports it, dynamic client registration. Documented examples
+    include the Google Maps, Freshdesk and Salesforce MCP servers.
+  source: https://www.nextw.com/docs/developerstudiointeroperability

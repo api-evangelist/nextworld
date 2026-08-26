@@ -1,0 +1,62 @@
+generated: '2026-08-26'
+method: searched
+source: https://trust.nextw.com/
+url: https://trust.nextw.com/
+name: Nextworld Trust Center
+platform: SafeBase (by Drata)
+access: >-
+  Publicly reachable in a browser. Behind a Cloudflare interstitial that answers 403 "Just a moment..."
+  to a plain crawler UA — the page demonstrably exists and renders; only automated fetches are turned
+  away. Some documents (SOC reports, pentest reports) require an NDA/request flow, as is normal for a
+  trust center.
+certifications:
+- name: SOC 1 Type 2
+  period: 2024-10-01 to 2025-09-30
+- name: SOC 2 Type 2
+  period: 2024-10-01 to 2025-09-30
+  scope: Security, Availability, Confidentiality (re-examined annually)
+- name: ISAE 3000
+- name: ISAE 3402
+- name: CSA STAR Level 1
+frameworks:
+- GDPR
+- CCPA / CPRA
+- Colorado Privacy Act
+- PIPEDA
+- Australia Privacy Act
+- New Zealand Privacy Act
+- HIPAA
+- WCAG
+- Sarbanes-Oxley Act
+- Gramm-Leach-Bliley Act
+- EU Network and Information Systems Directive
+- UK Network and Information Security Act
+- OFAC
+documents_offered:
+- Pentest reports
+- Compliance certifications
+- Cyber insurance documentation
+- Service-Level Agreement
+- Business Continuity and Contingency Plans
+- Data Processing Agreement
+subprocessors:
+- Amazon Web Services
+- HubSpot
+- Freshworks Inc
+- Cloud Inventory
+contacts:
+- purpose: SOC report and compliance questions
+  email: compliance@nextworld.net
+  source: https://www.nextw.com/utility/compliance
+related_pages:
+- https://www.nextw.com/utility/compliance
+- https://www.nextw.com/utility/sharing-the-security-responsibilities
+- https://www.nextw.com/utility/customer-data-processing-agreement
+- https://www.nextw.com/utility/ai-ethics-policy
+- https://www.nextw.com/utility/ai-acceptable-use-policy
+evidence:
+- url: https://trust.nextw.com/
+  status: 403
+  note: Cloudflare bot challenge to curl; renders normally in a browser.
+- url: https://www.nextw.com/utility/compliance
+  status: 200

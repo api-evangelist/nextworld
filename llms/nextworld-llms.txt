@@ -1,0 +1,55 @@
+# Nextworld
+
+> Nextworld is the AI-native, no-code enterprise application platform that eliminates Shadow ERP — the hidden layer of spreadsheets, side systems, and manual workarounds that accumulates when ERPs can't keep up. Nextworld closes the gaps legacy ERP can't fill with no-code application development, embedded workflow automation, native AI, and open APIs.
+
+Nextworld was founded by the team behind JD Edwards and serves 600+ enterprise customers in distribution, manufacturing, engineering & construction, telecommunications, utilities, and food & beverage. Nextworld is not an ERP replacement — it is the enterprise application platform that extends, modernizes, and fills the gaps in existing ERP investments.
+
+## Platform
+
+- [Platform Overview](https://www.nextw.com/platform/overview): No-code enterprise application platform that eliminates Shadow ERP. Connects data, apps, and workflows across the enterprise without technical debt.
+- [Shadow ERP](https://www.nextw.com/platform/shadow-erp): Shadow ERP is the hidden layer of spreadsheets, side systems, and manual workarounds that runs your business when ERP falls short. Nextworld is built to eliminate it.
+- [Why Nextworld](https://www.nextw.com/platform/why-nextworld): Why enterprises choose Nextworld to close ERP gaps, cut technical debt, and extend their ERP investment — without ERP lock-in.
+- [Nextworld Intelligence](https://www.nextw.com/platform/nextworld-intelligence): AI-native enterprise platform with intelligence embedded across every workflow and application layer — not bolted on.
+- [Mobile Enterprise Application Platform](https://www.nextw.com/platform/mobile-enterprise-platform): Give warehouse and field teams real-time ERP access on any mobile device. Works online, offline, and across any device.
+- [Developer Studio](https://www.nextw.com/platform/developer-studio): No-code enterprise application development environment for building, testing, and deploying enterprise-grade apps.
+- [Logic Builder](https://www.nextw.com/platform/logic-builder): Design, automate, and scale complex business rules without code — keeping workflows fast, flexible, and fully auditable.
+- [Workflow Automations](https://www.nextw.com/platform/workflow-automations): Automate complex enterprise workflows with embedded AI and no-code tooling.
+- [Integrations & Connectors](https://www.nextw.com/platform/integrations-connectors): Open REST APIs and pre-built connectors linking Nextworld with existing enterprise systems.
+
+## Solutions by Initiative
+
+- [Modernize](https://www.nextw.com/solutions/initiative/modernize): Modernize legacy ERP without rip-and-replace. Extend existing investments with modern UX, AI automation, and continuous improvement.
+- [Unify](https://www.nextw.com/solutions/initiative/unify): Replace fragmented systems with a unified enterprise platform connecting ERP, CRM, legacy tools, and teams.
+- [Differentiate](https://www.nextw.com/solutions/initiative/differentiate): Build custom enterprise applications that create competitive advantage.
+- [Track Remote Inventory](https://www.nextw.com/solutions/initiative/track-remote-inventory): Real-time inventory visibility across locations and devices.
+- [Build Mobile Apps](https://www.nextw.com/solutions/initiative/build-mobile-apps): Build enterprise mobile apps connected to core business systems without code.
+- [Multiply Workforce](https://www.nextw.com/solutions/initiative/multiply-workforce): Automate repetitive work and scale output without adding headcount.
+
+## Solutions by Industry
+
+- [Distribution](https://www.nextw.com/solutions/industries/distribution): Distribution ERP software for enterprise — real-time inventory control, AI-powered warehouse management, and no-code tools for faster operations.
+- [Manufacturing](https://www.nextw.com/solutions/industries/manufacturing): Modernize manufacturing with real-time inventory, AI automation, predictive alerts, and mobile apps built natively on the Nextworld platform.
+
+## Solutions by Use Case
+
+- [Application Development](https://www.nextw.com/solutions/application-development): Build complex business applications with AI agents and no-code tooling. Force-multiplier development for enterprise teams.
+- [Intelligent Automation](https://www.nextw.com/solutions/intelligent-automation): Business process automation powered by native AI.
+- [Packaged Applications](https://www.nextw.com/solutions/packaged-applications): Pre-built enterprise apps covering financials, procurement, manufacturing, and warehouse management — fully customizable and ready to deploy.
+
+## Company
+
+- [About Nextworld](https://www.nextw.com/about): Founded by the JD Edwards team, Nextworld is the no-code enterprise application platform for manufacturing, distribution, and operations. 600+ enterprise customers worldwide.
+- [Careers](https://www.nextw.com/careers): Working at Nextworld.
+
+## Resources
+
+- [Application Marketplace](https://www.nextw.com/application-marketplace): Pre-built applications and templates on the Nextworld platform.
+- [Partners](https://www.nextw.com/partners): Implementation and technology partners.
+
+## Key Concepts
+
+- **Shadow ERP™**: Nextworld's owned category. The hidden layer of spreadsheets, side systems, and manual workarounds that accumulates when enterprise software can't keep up with business needs. Shadow ERP does not appear on IT architecture diagrams but runs critical operations across every department. Nextworld is the platform built to eliminate Shadow ERP.
+- **Enterprise Application Platform (EAP)**: A cloud-based platform for building, running, and integrating enterprise applications. Nextworld is an AI-native EAP — distinct from ERP, which manages core transactional data but cannot adapt to the specific workflows each business requires.
+- **No-code enterprise development**: Building enterprise-grade applications without writing code. Nextworld's Developer Studio, Logic Builder, and Workflow Builder enable this at enterprise scale — distinct from low-code tools, which still require significant developer effort, and from consumer app builders, which lack enterprise governance and security.
+- **Native AI**: AI capabilities built into the core of the platform from the ground up, not retrofitted on top of existing software. Nextworld Intelligence works across data, apps, and workflows as a foundational layer.
+- **JD Edwards modernization**: Nextworld was founded by the team that built JD Edwards and is purpose-built to extend, complement, and modernize JD Edwards environments — without replacing them.

@@ -1,0 +1,48 @@
+generated: '2026-08-26'
+method: searched
+source: https://www.nextw.com/pricing
+docs:
+- https://www.nextw.com/docs/developerstudiosecurity
+- https://www.nextw.com/docs/developerstudioquickstart
+name: Nextworld sandbox and test surfaces
+self_serve_signup: https://console.nextworld.net/auth/signup
+free_environment:
+  available: true
+  price: 0
+  includes:
+    users: 1
+    dev_environments: 1
+    ai_credits_per_month: 150
+    storage_gb: 2
+  note: >-
+    The published free tier is the closest thing Nextworld offers to a public sandbox: one developer
+    environment reachable after self-serve signup, with no sales gate.
+environment_model:
+  description: >-
+    Nextworld separates work by environment and lifecycle. An inbound API caller that supplies no
+    environment or lifecycle inherits the default derived from its credentials; a different
+    environment (for example development or test rather than production) is named in the request body
+    of the authentication call, and the refresh token can be used to switch environments.
+  source: https://www.nextw.com/docs/developerstudiointeroperability
+product_families:
+- name: Playpen
+  purpose: Early development
+  note: >-
+    Documented as the family to use for early development. Platform security is enabled for all
+    product families EXCEPT Playpen — so a Playpen object is unsecured by design, which matters when
+    deciding what an agent may reach.
+  source: https://www.nextw.com/docs/developerstudiosecurity
+testing_tooling:
+- name: Automated testing
+  url: https://www.nextw.com/docs/automatedtesting
+- name: Endpoint Log Inquiry
+  note: Inspect the fully resolved URL, substituted headers, request body (to 100Kb), response code and body of any endpoint call.
+- name: Webhook Log Inquiry
+  note: Inspect inbound webhook requests and replay a failed one after fixing the cause.
+- name: Event Status Inquiry
+  note: Review emitted events and errors, and resubmit failures.
+test_credentials:
+  published: false
+  note: >-
+    Nextworld publishes no test keys, magic identifiers, fixture values or hosted test tokens. None
+    are invented here.

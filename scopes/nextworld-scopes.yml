@@ -1,0 +1,49 @@
+generated: '2026-08-26'
+method: probed
+source: https://apps.nextworld.net/ai/mcp/.well-known/oauth-protected-resource
+docs: https://www.nextw.com/docs/mcpserver
+name: Nextworld OAuth scopes
+note: >-
+  These are not derived from an OpenAPI securityScheme — Nextworld publishes no OpenAPI. They are
+  read verbatim from the RFC 9728 protected-resource metadata the MCP endpoint serves anonymously,
+  captured at well-known/nextworld-oauth-protected-resource.json (HTTP 200, 2026-08-26). The
+  authorization server is an AWS Cognito user pool, whose OIDC discovery document advertises only the
+  four standard OIDC scopes; the resource-specific scope is declared by the resource server.
+authorization_servers:
+- issuer: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_EJas25nD4
+  authorization_endpoint: https://464682c0-7c75-11f1-9d48-12d6f76c75f7.auth.us-east-1.amazoncognito.com/oauth2/authorize
+  token_endpoint: https://464682c0-7c75-11f1-9d48-12d6f76c75f7.auth.us-east-1.amazoncognito.com/oauth2/token
+  revocation_endpoint: https://464682c0-7c75-11f1-9d48-12d6f76c75f7.auth.us-east-1.amazoncognito.com/oauth2/revoke
+  userinfo_endpoint: https://464682c0-7c75-11f1-9d48-12d6f76c75f7.auth.us-east-1.amazoncognito.com/oauth2/userInfo
+  jwks_uri: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_EJas25nD4/.well-known/jwks.json
+protected_resources:
+- resource: https://apps.nextworld.net/ai/mcp
+  bearer_methods_supported:
+  - header
+  - body
+scope_count: 5
+scopes:
+- name: https://apps.nextworld.net/ai/mcp/access
+  type: resource
+  description: >-
+    Resource-server scope granting an MCP client access to the Nextworld MCP endpoint. Nextworld
+    publishes no separate per-operation scopes — actual authorization is enforced downstream by the
+    platform's own RUID permission model (security groups, permission definitions, roles, role
+    hierarchies, org unit security), scoped to the connecting user.
+- name: openid
+  type: oidc
+  description: Standard OpenID Connect scope; requests an ID token.
+- name: email
+  type: oidc
+  description: Standard OIDC claim scope; email and email_verified.
+- name: phone
+  type: oidc
+  description: Standard OIDC claim scope; phone_number and phone_number_verified.
+- name: profile
+  type: oidc
+  description: Standard OIDC claim scope; basic profile claims.
+gaps:
+- >-
+  There is no published scope reference page. Nextworld does not document a granular scope surface
+  for its REST endpoints; inbound REST calls authenticate with Basic Auth and receive a short-lived
+  bearer token rather than a scoped OAuth grant.

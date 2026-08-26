@@ -64,5 +64,26 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Nextworld is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/nextworld_stock/
+Nextworld is a Denver, Colorado enterprise application platform company founded by members of the
+original JD Edwards team. Its AI-native, no-code platform lets enterprises build, extend and govern
+mission-critical applications on top of existing ERP investments — what the company markets as
+eliminating "Shadow ERP".
+
+## API surface (profiled 2026-08-26)
+
+| Surface | Status |
+| --- | --- |
+| REST API | Real. Every table and logic block auto-exposes endpoints (`/v3/data/{table}`, `/v3/LogicBlocks/{logicBlock}:execute`). The endpoint reference is published **inside the platform** under Integrations → Endpoint Documentation, behind a tenant login, so **no OpenAPI could be captured**. |
+| MCP server | Real and live — remote, at `https://apps.nextworld.net/ai/mcp?app={Application}`. Verified by JSON-RPC probe; `tools/list` returns an RFC 9728 Bearer challenge. |
+| llms.txt | Served at <https://www.nextw.com/llms.txt>; saved verbatim. |
+| Events / webhooks | Real. Outbound event emissions to AWS EventBridge; inbound webhooks with HMAC or Basic auth. No AsyncAPI published. |
+| Deprecation policy | Real and dated — V2 → V3 data-mutation endpoints, announced March 2026, deadline December 2027. |
+| Agent card | None. `/.well-known/agent-card.json` and `/.well-known/agent.json` 404 on every host. |
+| First-party SDK | None on any public registry. |
+| Status page | None found. |
+
+- Company: <https://www.nextw.com/>
+- Documentation: <https://www.nextw.com/docs>
+- Interoperability / API reference: <https://www.nextw.com/docs/developerstudiointeroperability>
+- MCP server: <https://www.nextw.com/docs/mcpserver>
+- Trust center: <https://trust.nextw.com/>

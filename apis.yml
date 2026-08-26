@@ -1,23 +1,144 @@
 aid: nextworld
 name: Nextworld
-description: 'Nextworld is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Nextworld is a Denver, Colorado enterprise application platform company founded by members of the
+  original JD Edwards team. Its AI-native, no-code platform lets enterprises build, extend and govern
+  mission-critical applications on top of existing ERP investments — the company markets this as
+  eliminating "Shadow ERP", the layer of spreadsheets and side systems that accumulates when an ERP
+  cannot keep up. The platform surfaces to developers and agents through Developer Studio,
+  Logic Builder, workflow automation, REST-based inbound and outbound endpoints, event emissions to
+  AWS EventBridge, inbound webhooks, and a remote Model Context Protocol (MCP) server at
+  apps.nextworld.net that exposes per-application record and workflow operations to MCP clients such
+  as Claude and ChatGPT. Nextworld reports 600+ enterprise customers across distribution,
+  manufacturing, engineering and construction, telecommunications, utilities, and food and beverage.
+image: https://cdn.prod.website-files.com/68fbb4299bc0c9e658c018cc/6978e9a290aa1dc1c6a606c3_Nextworld_OpenGraph.jpg
 url: https://raw.githubusercontent.com/api-evangelist/nextworld/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-26'
 modified: '2026-08-26'
 tags:
 - Company
-apis: []
+- Enterprise Resource Planning
+- No-Code
+- Enterprise Application Platform
+- Workflow Automation
+- Artificial Intelligence
+- Model Context Protocol
+- Integration
+- Manufacturing
+- Distribution
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- name: Nextworld Platform REST API
+  description: >-
+    Inbound REST endpoints into the Nextworld Platform. Every table and logic block created in the
+    platform automatically exposes a set of endpoints for fetching, inserting, updating and deleting
+    records and for executing logic blocks. Authentication is a Basic Auth call whose JSON response
+    returns the tenant-specific protocol://host:port plus an access token (8 minute lifetime) and a
+    refresh token. The full endpoint reference is published inside the platform under
+    Integrations > Endpoint Documentation and is not reachable without a tenant login, so no OpenAPI
+    definition could be captured.
+  humanURL: https://www.nextw.com/docs/developerstudiointeroperability
+  baseURL: https://apps.nextworld.net
+  tags:
+  - REST
+  - Interoperability
+  - Endpoints
+  properties:
+  - type: Documentation
+    url: https://www.nextw.com/docs/developerstudiointeroperability
+  - type: Authentication
+    url: authentication/nextworld-authentication.yml
+  - type: Lifecycle
+    url: lifecycle/nextworld-lifecycle.yml
+  - type: Webhooks
+    url: asyncapi/nextworld-events-webhooks.yml
+- name: Nextworld MCP Server
+  description: >-
+    Remote Model Context Protocol server operated by Nextworld at apps.nextworld.net/ai/mcp. An MCP
+    client connects to a single application, project or metadata bundle via a per-user URL generated
+    inside the platform, then reads, inserts, updates, deletes and creates records or transitions a
+    record's workflow — always inside the calling user's platform permissions. Anonymous tools/list
+    returns an RFC 9728 Bearer challenge pointing at the protected-resource metadata document, so the
+    live tool schemas require an authenticated introspection.
+  humanURL: https://www.nextw.com/docs/mcpserver
+  baseURL: https://apps.nextworld.net/ai/mcp
+  tags:
+  - MCP
+  - Agents
+  - Artificial Intelligence
+  properties:
+  - type: MCPServer
+    url: mcp/nextworld-mcp.yml
+  - type: Documentation
+    url: https://www.nextw.com/docs/mcpserver
+  - type: OAuthScopes
+    url: scopes/nextworld-scopes.yml
 common:
+- type: TrustCenter
+  url: security/nextworld-trust-center.yml
+- type: DomainSecurity
+  url: security/nextworld-domain-security.yml
 - type: Website
-  url: https://forgeglobal.com/nextworld_stock/
+  url: https://www.nextw.com/
+- type: DeveloperPortal
+  url: https://www.nextw.com/platform/developer-studio
+- type: Documentation
+  url: https://www.nextw.com/docs
+- type: APIReference
+  url: https://www.nextw.com/docs/developerstudiointeroperability
+- type: GettingStarted
+  url: https://www.nextw.com/docs/developerstudioquickstart
+- type: Support
+  url: https://community.nextw.com/
+- type: Blog
+  url: https://www.nextw.com/tech-blog
+- type: Pricing
+  url: https://www.nextw.com/pricing
+- type: SignUp
+  url: https://console.nextworld.net/auth/signup
+- type: TermsOfService
+  url: https://www.nextw.com/utility/terms
+- type: PrivacyPolicy
+  url: https://www.nextw.com/utility/privacy-policy
+- type: Compliance
+  url: https://www.nextw.com/utility/compliance
+- type: LLMsTxt
+  url: llms/nextworld-llms.txt
+- type: MCPServer
+  url: mcp/nextworld-mcp.yml
+- type: WellKnown
+  url: well-known/nextworld-well-known.yml
+- type: OAuthScopes
+  url: scopes/nextworld-scopes.yml
+- type: Authentication
+  url: authentication/nextworld-authentication.yml
+- type: Conventions
+  url: conventions/nextworld-conventions.yml
+- type: Lifecycle
+  url: lifecycle/nextworld-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/nextworld-lifecycle.yml
+- type: Conformance
+  url: conformance/nextworld-conformance.yml
+- type: Webhooks
+  url: asyncapi/nextworld-events-webhooks.yml
+- type: Plans
+  url: plans/nextworld-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/nextworld-rate-limits.yml
+- type: Sandbox
+  url: sandbox/nextworld-sandbox.yml
+- type: Packages
+  url: packages/nextworld-packages.yml
+x-enrichment:
+  date: '2026-08-26'
+  status: enriched
+  artifacts_added: 18
+  pass: local-v1

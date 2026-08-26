@@ -1,0 +1,127 @@
+generated: '2026-08-26'
+method: probed
+source: >-
+  Direct HTTP probes of every Nextworld host on 2026-08-26. The only /.well-known document served
+  anywhere in the estate is the RFC 9728 OAuth protected-resource metadata scoped under the MCP
+  endpoint path at apps.nextworld.net/ai/mcp/.well-known/oauth-protected-resource; every root-level
+  /.well-known path 404s (or, on trust.nextw.com, returns a Cloudflare bot challenge).
+name: Nextworld well-known documents
+hosts:
+- host: apps.nextworld.net
+  note: >-
+    Platform / API / MCP host. Root /.well-known/* is served by an S3+CloudFront origin that answers
+    404 NoSuchKey. The MCP endpoint itself advertises its authorization server per RFC 9728 via a
+    WWW-Authenticate resource_metadata challenge, and that document IS served.
+  documents:
+  - path: /ai/mcp/.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: nextworld-oauth-protected-resource.json
+    note: >-
+      Real RFC 9728 protected-resource metadata. Names the resource, the AWS Cognito authorization
+      server, bearer methods, and five supported scopes.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: www.nextw.com
+  note: >-
+    Marketing + public documentation host (Webflow). Every /.well-known path returns an HTML page
+    reading "Invalid .well-known request" with status 404. A real llms.txt IS served at the root and
+    is captured verbatim in llms/nextworld-llms.txt.
+  documents:
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain
+    file: ../llms/nextworld-llms.txt
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: console.nextworld.net
+  note: Sign-up / console host (Vercel). SPA 404 shell on every /.well-known path.
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: support.nextworld.net
+  note: Freshworks-hosted support portal. 404 on every /.well-known path.
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: community.nextw.com
+  note: User community forum. 404 on every /.well-known path.
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: trust.nextw.com
+  note: >-
+    SafeBase-hosted trust center behind a Cloudflare interstitial. Every /.well-known probe returned
+    403 "Just a moment..." — this is a bot challenge on our crawler, NOT evidence the documents are
+    absent, and NOT evidence the trust center is dead (it renders for a browser).
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /.well-known/api-catalog
+    status: 403
+  - path: /.well-known/agent-card.json
+    status: 403
+  - path: /.well-known/agent.json
+    status: 403
+- host: cognito-idp.us-east-1.amazonaws.com
+  note: >-
+    Not a Nextworld-controlled host. Recorded because the Nextworld MCP protected-resource metadata
+    names this AWS Cognito user pool (us-east-1_EJas25nD4) as its authorization server; the OIDC
+    discovery document is saved for the authentication/ and scopes/ artifacts.
+  documents:
+  - path: /us-east-1_EJas25nD4/.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    file: nextworld-openid-configuration.json
+  - path: /us-east-1_EJas25nD4/.well-known/oauth-authorization-server
+    status: 400

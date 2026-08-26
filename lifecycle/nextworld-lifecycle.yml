@@ -1,0 +1,97 @@
+generated: '2026-08-26'
+method: searched
+source: https://www.nextw.com/docs/developerstudiointeroperability
+name: Nextworld API lifecycle
+versioning:
+  scheme: path-prefixed major version
+  observed_versions:
+  - v2
+  - v3
+  current: v3
+  note: >-
+    Version is carried in the endpoint path (e.g. PUT /v2/data/{table} -> PUT /v3/data/{table}).
+    Nextworld does not publish a written versioning POLICY document; the scheme below is read off the
+    published V3 deprecation table, which is the company's own public statement of how a major
+    version transition is run.
+deprecation:
+  policy_published: true
+  policy_url: https://www.nextw.com/docs/developerstudiointeroperability
+  policy_section: V3 endpoint deprecation requirements
+  audience: third-party integrators calling into platform APIs
+  headers:
+    sunset: not documented
+    deprecation: not documented
+    note: >-
+      Nextworld announces deprecation in documentation with explicit calendar dates. There is no
+      published use of RFC 8594 Sunset or the Deprecation response header.
+  overlap_policy: >-
+    "Both the new and deprecated endpoints are supported until the migration deadline." Nextworld
+    states migration is strongly recommended before the deadline to avoid service interruptions.
+  windows:
+  - start_date: '2026-03'
+    deadline: '2027-12'
+    duration_months: 21
+    scope: Data mutation endpoints
+    deprecated:
+    - PUT /v2/data/{table}
+    - PUT /v2/data/{table}:findAndUpdate
+    - PUT /v2/LogicBlocks/{table}:execute
+    - PUT /v2/LogicBlocks/{logicBlock}:executeWithSignatures
+    - POST /v3/NateContainer/commit
+    replacement:
+    - PUT /v3/data/{table}
+    - PUT /v3/data/{table}:findAndUpdate
+    - PUT /v3/LogicBlocks/{table}:execute
+    - PUT /v3/LogicBlocks/{logicBlock}:executeWithSignatures
+    - POST /v3/NateContainer/commit
+    migration_notes:
+    - >-
+      Calls into tables WITHOUT Subtable Mains: change V2 to V3 in the URL and nothing else.
+    - >-
+      Calls into tables WITH Subtable Mains: change the PUT/POST version to V3, and supply a NATE
+      disposition in the request body for any subtable records to be mutated. Subtable main records
+      sent without a disposition are automatically treated as PRISTINE.
+    - >-
+      Every subtable main record fetched is returned with nwNateDisposition of PRISTINE. Include all
+      records and change the disposition as needed. Deleted records must be passed with a
+      disposition of DELETED.
+    dispositions:
+    - PRISTINE
+    - INSERTED
+    - UPDATED
+    - DELETED
+status_page:
+  published: false
+  note: >-
+    No public status page was found. status.nextw.com and status.nextworld.net do not resolve, and
+    neither the marketing site, the documentation, nor the trust center links one. An SLA document is
+    offered through the SafeBase trust center but is request-gated, not a live status surface. No
+    StatusPage pointer is emitted.
+  evidence:
+  - url: https://status.nextw.com/
+    status: 0
+    note: DNS does not resolve.
+  - url: https://status.nextworld.net/
+    status: 0
+    note: DNS does not resolve.
+sla:
+  published: false
+  note: >-
+    A Service-Level Agreement is listed among the documents available in the trust center
+    (trust.nextw.com) and a Service and Support Agreement is published at
+    https://www.nextw.com/utility/service-and-support-agreement, but no uptime commitment or credit
+    schedule is stated on a public page.
+retention:
+- subject: Endpoint logs
+  window: 5 days
+  note: Endpoint log records are purged after five days.
+- subject: Access token
+  window: 8 minutes
+- subject: Refresh token
+  window: several hours
+changelog:
+  published: false
+  note: >-
+    No public dated changelog or release-notes feed was found on www.nextw.com or in the
+    documentation sitemap (274 URLs enumerated 2026-08-26). Release information appears to be
+    delivered inside the platform and through the customer community. No ChangeLog pointer is emitted.

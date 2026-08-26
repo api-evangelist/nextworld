@@ -1,0 +1,1 @@
+{"resource":"https://apps.nextworld.net/ai/mcp","authorization_servers":["https://cognito-idp.us-east-1.amazonaws.com/us-east-1_EJas25nD4"],"bearer_methods_supported":["header","body"],"scopes_supported":["https://apps.nextworld.net/ai/mcp/access","openid","email","phone","profile"]}

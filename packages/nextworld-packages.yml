@@ -1,0 +1,62 @@
+generated: '2026-08-26'
+method: searched
+source: >-
+  Registry searches of npm, PyPI, RubyGems, crates.io, NuGet, Maven Central and pkg.go.dev, plus the
+  Nextworld documentation and the github.com/nextworld organization, on 2026-08-26.
+name: Nextworld packages
+official_sdk_count: 0
+package_count: 1
+note: >-
+  Nextworld publishes NO first-party client SDK on any public package registry. No SDKs pointer is
+  emitted, because sdk_count must reflect first-party libraries and there are none. The company's
+  own integration story is no-code — Developer Studio, Endpoint Definitions and the Logic Block
+  Builder inside the platform — rather than a distributed client library, which is a coherent
+  product decision rather than an oversight, but it does mean an outside developer has nothing to
+  install.
+packages:
+- name: stx_nextworld_api_client
+  registry: npm
+  url: https://www.npmjs.com/package/stx_nextworld_api_client
+  official: false
+  description: TS-JS wrapper for NW Rest API
+  version: 1.3.2
+  published: '2021-03-23'
+  language: TypeScript
+  repository: null
+  maintainer: seeward (seeward@gmail.com)
+  note: >-
+    Third-party, not Nextworld. No repository, no homepage, a single personal maintainer account, and
+    last published 2021-03-23 — nearly five years stale and predating the v3 endpoint generation
+    entirely, so it targets the /v2 data and LogicBlocks endpoints Nextworld has scheduled for
+    removal by December 2027. Recorded for completeness and explicitly NOT counted as an SDK.
+registries_checked:
+- registry: npm
+  query: nextworld
+  result: >-
+    Two matches, neither first-party - stx_nextworld_api_client (above) and com.nextworld.urp10for21,
+    a Unity render-pipeline fork unrelated to this company.
+- registry: PyPI
+  query: nextworld
+  result: 404 — no package.
+- registry: RubyGems
+  result: none
+- registry: crates.io
+  result: none
+- registry: NuGet
+  result: none
+- registry: Maven Central
+  result: none
+- registry: pkg.go.dev
+  result: none
+github:
+  org_claimed: false
+  note: >-
+    github.com/nextworld resolves to an unrelated organization named "NeXTWORLD" whose only public
+    repository is a jodconverter fork last touched in 2020. It is NOT this company, so no
+    GitHubOrganization pointer is emitted. No Nextworld-operated public GitHub organization was found.
+  evidence:
+  - url: https://api.github.com/orgs/nextworld
+    status: 200
+    note: login "NeXTWORLD", 1 public repo (jodconverter), unrelated.
+cdn_components:
+  found: false
