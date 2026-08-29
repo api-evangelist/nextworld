@@ -11,6 +11,17 @@ description: >-
   apps.nextworld.net that exposes per-application record and workflow operations to MCP clients such
   as Claude and ChatGPT. Nextworld reports 600+ enterprise customers across distribution,
   manufacturing, engineering and construction, telecommunications, utilities, and food and beverage.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://cdn.prod.website-files.com/68fbb4299bc0c9e658c018cc/6978e9a290aa1dc1c6a606c3_Nextworld_OpenGraph.jpg
 url: https://raw.githubusercontent.com/api-evangelist/nextworld/refs/heads/main/apis.yml
 x-type: company
