@@ -34,6 +34,17 @@ tags:
 - Enterprise Resource Planning
 - No-Code
 - Enterprise Application Platform
+- Workflow-Automation
+- Artificial Intelligence
+- MCP
+- Integration
+- Manufacturing
+- Distribution
+tags_raw:
+- Company
+- Enterprise Resource Planning
+- No-Code
+- Enterprise Application Platform
 - Workflow Automation
 - Artificial Intelligence
 - Model Context Protocol
@@ -58,6 +69,9 @@ apis:
   humanURL: https://www.nextw.com/docs/developerstudiointeroperability
   baseURL: https://apps.nextworld.net
   tags:
+  - REST
+  - Interoperability
+  tags_raw:
   - REST
   - Interoperability
   - Endpoints
