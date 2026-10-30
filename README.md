@@ -64,26 +64,129 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Nextworld is a Denver, Colorado enterprise application platform company founded by members of the
-original JD Edwards team. Its AI-native, no-code platform lets enterprises build, extend and govern
-mission-critical applications on top of existing ERP investments — what the company markets as
-eliminating "Shadow ERP".
+Nextworld is a Denver, Colorado enterprise application platform company founded by members of the original JD Edwards team. Its AI-native, no-code platform lets enterprises build, extend and govern mission-critical applications on top of existing ERP investments — the company markets this as eliminating "Shadow ERP", the layer of spreadsheets and side systems that accumulates when an ERP cannot keep up. The platform surfaces to developers and agents through Developer Studio, Logic Builder, workflow automation, REST-based inbound and outbound endpoints, event emissions to AWS EventBridge, inbound webhooks, and a remote Model Context Protocol (MCP) server at apps.nextworld.net that exposes per-application record and workflow operations to MCP clients such as Claude and ChatGPT. Nextworld reports 600+ enterprise customers across distribution, manufacturing, engineering and construction, telecommunications, utilities, and food and beverage.
 
-## API surface (profiled 2026-08-26)
+**Areas:** Company · ERP · No-Code · Enterprise Application Platform · Workflow Automation · Artificial Intelligence · MCP · Integration · Manufacturing · Distribution
 
-| Surface | Status |
-| --- | --- |
-| REST API | Real. Every table and logic block auto-exposes endpoints (`/v3/data/{table}`, `/v3/LogicBlocks/{logicBlock}:execute`). The endpoint reference is published **inside the platform** under Integrations → Endpoint Documentation, behind a tenant login, so **no OpenAPI could be captured**. |
-| MCP server | Real and live — remote, at `https://apps.nextworld.net/ai/mcp?app={Application}`. Verified by JSON-RPC probe; `tools/list` returns an RFC 9728 Bearer challenge. |
-| llms.txt | Served at <https://www.nextw.com/llms.txt>; saved verbatim. |
-| Events / webhooks | Real. Outbound event emissions to AWS EventBridge; inbound webhooks with HMAC or Basic auth. No AsyncAPI published. |
-| Deprecation policy | Real and dated — V2 → V3 data-mutation endpoints, announced March 2026, deadline December 2027. |
-| Agent card | None. `/.well-known/agent-card.json` and `/.well-known/agent.json` 404 on every host. |
-| First-party SDK | None on any public registry. |
-| Status page | None found. |
+## Nextworld on APIs.io
 
-- Company: <https://www.nextw.com/>
-- Documentation: <https://www.nextw.com/docs>
-- Interoperability / API reference: <https://www.nextw.com/docs/developerstudiointeroperability>
-- MCP server: <https://www.nextw.com/docs/mcpserver>
-- Trust center: <https://trust.nextw.com/>
+Everything profiled for Nextworld is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/nextworld/](https://apis.io/providers/nextworld/)** — or go straight to one of the APIs or properties below.
+
+### APIs (2)
+
+- [Nextworld Platform REST API](https://apis.io/apis/nextworld/nextworld-platform-rest-api/) — Inbound REST endpoints into the Nextworld Platform. Every table and logic block created in the platform automatically exposes a set of endpoints for…
+- [Nextworld MCP Server](https://apis.io/apis/nextworld/nextworld-mcp-server/) — Remote Model Context Protocol server operated by Nextworld at apps.nextworld.net/ai/mcp. An MCP client connects to a single application, project or metadata…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Nextworld Events Webhooks](https://apis.io/asyncapis/nextworld/nextworld-events-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [Nextworld MCP Server](https://apis.io/servers/nextworld/nextworld-mcp-server/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Nextworld Authentication](https://apis.io/security/nextworld/nextworld-authentication/)
+- [Nextworld Domain Security](https://apis.io/security/nextworld/nextworld-domain-security/)
+- [Nextworld Trust Center](https://apis.io/security/nextworld/nextworld-trust-center/)
+- [Nextworld Vulnerability Disclosure](https://apis.io/security/nextworld/nextworld-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Nextworld Scopes](https://apis.io/scopes/nextworld/nextworld-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Nextworld Plans Pricing](https://apis.io/plans/nextworld/nextworld-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Nextworld Rate Limits](https://apis.io/rate-limits/nextworld/nextworld-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.nextw.com/)
+- [Documentation](https://www.nextw.com/docs)
+- [Getting started](https://www.nextw.com/docs/developerstudioquickstart)
+- [API reference](https://www.nextw.com/docs/developerstudiointeroperability)
+- [Pricing](https://www.nextw.com/pricing)
+- [Sign up](https://console.nextworld.net/auth/signup)
+- [Support](https://community.nextw.com/)
+- [Blog](https://www.nextw.com/tech-blog)
+- [Compliance](https://www.nextw.com/utility/compliance)
+- [Terms of service](https://www.nextw.com/utility/terms)
+- [Privacy policy](https://www.nextw.com/utility/privacy-policy)
+
+## API Evangelist rating
+
+**Kin Score 51.2** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 39.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 15.8 |
+| Developer ergonomics | 64.3 |
+| Access clarity | 68.4 |
+
+**Agent readiness 33.3** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 36.4** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/nextworld/](https://apis.io/providers/nextworld/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Nextworld: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/nextworld/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
